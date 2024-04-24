@@ -53,6 +53,15 @@ function getAPIKey(c: Context<Env, "/v1/chat/completions", BlankInput>) {
   return tokenParts[1];
 }
 
+export const availableModelStrings = [
+  "command",
+  "command-nightly",
+  "command-light",
+  "command-light-nightly",
+  "command-r",
+  "command-r-plus",
+];
+
 export async function handleChatCompletions(
   c: Context<Env, "/v1/chat/completions", BlankInput>
 ) {
@@ -62,7 +71,9 @@ export async function handleChatCompletions(
 
   const apiRequestBody: CohereRequestBody = {
     message: "",
-    model: body.model,
+    model: availableModelStrings.includes(body.model)
+      ? body.model
+      : "command-r-plus",
     chatHistory: [],
     frequencyPenalty: body.frequency_penalty ?? 0.0,
     presencePenalty: body.presence_penalty ?? 0.0,

@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import OpenAI from "openai";
 import { cors } from "hono/cors";
 import { getErrorMessageJSON } from "./utils";
-import { handleChatCompletions } from "./api";
+import { handleChatCompletions,availableModelStrings } from "./api";
 
 const app = new Hono();
 
@@ -19,15 +19,6 @@ app.get("/v1/models", async (c) => {
     data: [],
     object: "list",
   };
-
-  const availableModelStrings = [
-    "command",
-    "command-nightly",
-    "command-light",
-    "command-light-nightly",
-    "command-r",
-    "command-r-plus",
-  ];
 
   for (const modelString of availableModelStrings) {
     models.data.push({
